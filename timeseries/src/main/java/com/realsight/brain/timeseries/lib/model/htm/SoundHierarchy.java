@@ -10,11 +10,12 @@ public class SoundHierarchy {
 	
 	private double minValue;
 	private double maxValue;
-	private static final double threshold = 0.20;
-	private static final int maxLeftSemiContextsLenght = 11;
+	private static final double threshold = 0.25;
+	private static final int maxLeftSemiContextsLenght = 7;
 	private static final int maxActiveNeuronsNum = 15;
 	private static final int numNeuroGroup = 1;
-	private static final int numBit = 7;
+	private static final int numBit = 5;
+	private static final int numFact = 3;
 	private double fullValueRange;
 	private double minValueStep;
 	private List<NeuroGroup> neuroGroups = new ArrayList<NeuroGroup>();
@@ -43,22 +44,17 @@ public class SoundHierarchy {
 		double sum = 0.0;
 		for ( int i = 0; i < numNeuroGroup; i++ ) {
 			double p = this.neuroGroups.get(i).predict(currSensFacts);
+//			sum += p;
 			if ( p > threshold ) sum += 1.0;
 		}
 		return sum;
 	}
 	public void train(DoubleSeries sound) {
 		for(int i = 0; i < sound.size(); i += 1){
-			int bit = (int) ((sound.get(i).getItem()-this.minValue)/minValueStep);
-			if ( bit == 0 ) continue;
 			List<Integer> currSensFacts = new ArrayList<Integer>();
-			for(int j = 0; j < numBit; j++){
-				if((bit&1) > 0){ 
-					currSensFacts.add(j*2+1);
-				} else {
-					currSensFacts.add(j*2);
-				}
-				bit >>= 1;
+			for(int j = 0; j<numFact && j+i<sound.size(); j++){
+				int bit = (int) ((sound.get(i+j).getItem()-this.minValue)/minValueStep);
+				currSensFacts.add(bit);
 			}
 			learn(currSensFacts);
 		}

@@ -11,13 +11,14 @@ public class HTMMain {
 	public static void main(String[] args) throws Exception {
 		File rootTrain = new File(Paths.get(System.getProperty("user.dir"), "target", "data", "Train").toString());
 		File rootTest = new File(Paths.get(System.getProperty("user.dir"), "target", "data", "Test").toString());
+		int acc_num = 0, total_num = 0;
 		for(File file : rootTest.listFiles()){
 			if(file.isDirectory()){
 				for(File dir : file.listFiles()){
-					if(file.getName().equals("Angry")) continue;
-					if(file.getName().equals("Happy")) continue;
+//					if(file.getName().equals("Angry")) continue;
+//					if(file.getName().equals("Happy")) continue;
 					if(dir.isDirectory()) continue;
-					System.out.print(dir.getName() + ", " + file.getName() + ", \n");
+					
 					DoubleSeries trainSeries = new Sound(dir.toString()).getPropertySeries();
 					SoundHierarchy sh = SoundHierarchy.build(0.0, 0.8);
 					sh.train(trainSeries);
@@ -40,6 +41,12 @@ public class HTMMain {
 							}
 						}
 					}
+					if(className.equals("")) continue;
+					if(className.equals(file.getName()))
+						acc_num += 1;
+					total_num += 1;
+					System.out.println(acc_num + ", " + total_num + ", " + (100.0*acc_num/total_num) + "%");
+					System.out.print(dir.getName() + ", " + file.getName() + ", ");
 					System.out.println(className + ", " + fileNmae + "," + max_active);
 				}
 			}

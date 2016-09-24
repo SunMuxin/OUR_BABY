@@ -1,0 +1,44 @@
+# IDEA
+*.class
+*.project
+*.Rproj.user
+*.idea
+*.iml
+
+# FILE
+*.txt
+
+# R
+*.log
+*.RData
+*.Rbuildignore
+*.Rhistory
+*.Rproj
+*.Rhistory
+
+# Python
+*.pyc
+
+# Dir
+tmp/
+NABSubmit/META-INF/
+NABSubmit/classes/
+NABSubmit/data/
+cnn-auth/target/data/images/securecode/
+neusoft/
+predictive-analysis-engine/META-INF/
+predictive-analysis-engine/artifacts/lib/
+predictive-analysis-engine/data/
+predictive-analysis-engine/images/
+predictive-analysis-engine/model/
+predictive-analysis-engine/pred/
+predictive-analysis-engine/src/META-INF/
+predictive-analysis-engine/src/main/java/META-INF/
+predictive-analysis-engine/src/main/resources/quartz.properties
+predictive-analysis-engine/target/
+predictive-analysis-engine/temp/
+predictive-analysis-engine/train/
+timeseries/META-INF/
+timeseries/artifacts/
+timeseries/target/maven-status/
+timeseries/target/model/

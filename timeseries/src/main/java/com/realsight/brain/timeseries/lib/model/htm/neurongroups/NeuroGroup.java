@@ -2,6 +2,7 @@ package com.realsight.brain.timeseries.lib.model.htm.neurongroups;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import com.realsight.brain.timeseries.lib.util.Pair;
@@ -10,6 +11,7 @@ public class NeuroGroup {
 	
 	private int maxActiveNeuronsNum;
 	private List<Integer> leftFactsGroup;
+	private List<Integer> activeNeuros;
 	private NeuroGroupOperator neuroGroupOperator;
 	private List<Pair<List<Integer>, List<Integer>>> potentialNewContextList;
 	
@@ -27,7 +29,6 @@ public class NeuroGroup {
 		this.activate(currSensFacts, false);
 	}
 	
-	@SuppressWarnings("unchecked")
 	private double activate(List<Integer> currSensFacts, boolean rate) {
 //		for(int i = 0; i < currSensFacts.size(); i++)
 //			System.out.print(currSensFacts.get(i) + " ");
@@ -35,6 +36,7 @@ public class NeuroGroup {
 //		for(int i = 0; i < this.leftFactsGroup.size(); i++)
 //			System.out.print(this.leftFactsGroup.get(i) + " ");
 //		System.out.print("\n");
+		currSensFacts = new ArrayList<Integer>(new HashSet<Integer>(currSensFacts));
 		List<Pair<List<Integer>, List<Integer>>> potNewZeroLevelContext = 
 				new ArrayList<Pair<List<Integer>, List<Integer>>>();
 		int newContextFlag = -2;
@@ -56,11 +58,15 @@ public class NeuroGroup {
 		for ( int i = 0; i < currSensFacts.size(); i++ ) {
 			this.leftFactsGroup.add(currSensFacts.get(i));
 		}
+		this.activeNeuros = new ArrayList<Integer>();
+		for ( int i = 0; i < this.neuroGroupOperator.getActiveContexts().size(); i++ ) {
+			this.activeNeuros.add(this.neuroGroupOperator.getActiveContexts().get(i).getContextID());
+		}
 		this.potentialNewContextList = this.neuroGroupOperator.getPotentialNewContextList();
 		if(rate == false)
 			this.potentialNewContextList = new ArrayList<Pair<List<Integer>, List<Integer>>>();
 		this.neuroGroupOperator.contextCrosser(0, this.leftFactsGroup, false, this.potentialNewContextList);
-		return percentSelectedContextActive;
+		return percentSelectedContextActive; //this.neuroGroupOperator.getActiveContexts().size(); // 
 	}
 	
 	public double learn(List<Integer> currSensFacts) {
@@ -69,6 +75,10 @@ public class NeuroGroup {
 	
 	public double predict(List<Integer> currSensFacts) {
 		return activate(currSensFacts, false);
+	}
+
+	public List<Integer> getActiveNeuros() {
+		return activeNeuros;
 	}
 }
 

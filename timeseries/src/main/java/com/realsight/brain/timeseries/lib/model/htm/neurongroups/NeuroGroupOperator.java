@@ -198,6 +198,7 @@ public class NeuroGroupOperator {
         		}
         	}
         }
+        
         this.newContextID = -2;
         this.activeContexts = activeContexts;
         this.numSelectedContext = numSelectedContext;

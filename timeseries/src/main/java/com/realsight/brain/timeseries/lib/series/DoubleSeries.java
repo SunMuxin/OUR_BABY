@@ -304,9 +304,9 @@ public class DoubleSeries extends TimeSeries<Double> {
         return new DoubleSeries(super.lag(k).mData, getName());
     }
     
-    public DoubleSeries subSeries(int l, int r) throws Exception{
-    	if(l<0 || r>size())
-    		throw new Exception("l<0 || r>size()");
+    public DoubleSeries subSeries(int l, int r){
+    	if(l<0) l = 0;
+    	if(r>size()) r = size();
     	List<Entry<Double>> newEntries = new ArrayList<>();
     	for(int i = l; i < r; i++){
     		newEntries.add(new Entry<Double>(mData.get(i).getItem(), this.mData.get(i).getInstant()));

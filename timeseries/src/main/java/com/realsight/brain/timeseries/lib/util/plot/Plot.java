@@ -117,7 +117,9 @@ public class Plot {
         for( int i=0; i<series.length; i++ ){
         	List<Double> p = new ArrayList<Double>();
         	for(int j = 0; j < s.size(); j++){
-        		p.add(series[i].get(j).getItem());
+        		if(j < series[i].size())
+        			p.add(series[i].get(j).getItem());
+        		else p.add(0.0);
         	}
             addSeries(dataSet,x,p,String.valueOf(i));
         }

@@ -1,4 +1,4 @@
-package com.realsight.brain.timeseries.lib.model.seriescut;
+package com.realsight.brain.timeseries.lib.model.segment;
 
 import java.io.File;
 import java.io.FileOutputStream;

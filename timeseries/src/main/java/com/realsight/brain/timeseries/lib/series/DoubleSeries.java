@@ -26,7 +26,45 @@ public class DoubleSeries extends TimeSeries<Double> {
     public void setName(String name) {
         mName = name;
     }
+    
+    public DoubleSeries add(DoubleSeries other) {
 
+        Iterator<Entry<Double>> i1 = this.iterator();
+        Iterator<Entry<Double>> i2 = other.iterator();
+
+        List<Entry<Double>> newEntries = new ArrayList<>();
+
+        Entry<Double> n1 = null;
+        Entry<Double> n2 = null;
+        
+        if(i1.hasNext()) n1 = i1.next();
+    	else n1 = null;
+        if(i2.hasNext()) n2 = i2.next();
+    	else n2 = null;
+        while((n1!=null) && (n2!=null)){
+        	if (n1.mInstant <= n2.mInstant) {
+                newEntries.add(new Entry<Double>(n1.mT, n1.mInstant));
+                if(i1.hasNext()) n1 = i1.next();
+            	else n1 = null;
+            } else if (n2.mInstant<n1.mInstant) {
+                newEntries.add(new Entry<Double>(n2.mT, n2.mInstant));
+                if(i2.hasNext()) n2 = i2.next();
+            	else n2 = null;
+            }
+        } 
+        while(n1!=null) {
+        	newEntries.add(new Entry<Double>(n1.mT, n1.mInstant));
+        	if(i1.hasNext()) n1 = i1.next();
+        	else n1 = null;
+        }
+        while(n2!=null) {
+        	newEntries.add(new Entry<Double>(n2.mT, n2.mInstant));
+        	if(i2.hasNext()) n2 = i2.next();
+        	else n2 = null;
+        }
+        return new DoubleSeries(newEntries, mName);
+    }
+    
     public DoubleSeries and(DoubleSeries other) {
     	check(this.isAscending());
         check(other.isAscending());
@@ -322,6 +360,14 @@ public class DoubleSeries extends TimeSeries<Double> {
     	return -1;
     }
     
+    public double mean() {
+    	double sum = 0;
+    	for(int i = 0; i < this.size(); i++){
+    		sum += this.getData().get(i).getItem();
+    	}
+    	return sum/this.size();
+    }
+    
     public double sqrtSum(){
     	double sum = 0;
     	for(int i = 0; i < this.size(); i++){
@@ -330,6 +376,16 @@ public class DoubleSeries extends TimeSeries<Double> {
     	return sum/this.size();
     }
 
+    public double variance(){
+    	if(this.size() == 0)
+    		return 1.0;
+    	double var = 0.0;
+    	for(int i = 0; i < this.size(); i++){
+    		var += Math.pow(this.getData().get(i).getItem(), 2);
+    	}
+    	return (var/this.size());
+    }
+    
     public double min(){
     	double min_value = Double.MAX_VALUE;
     	for(int i = 0; i < this.size(); i++){

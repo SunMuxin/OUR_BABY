@@ -20,7 +20,6 @@ public class NAB {
 	private static final double tnWeight = 1.0;
 	
 	public static double Sigma(double y){
-		//System.out.println(y + " " + (2.0/(1.0+Math.exp(5*y))-1.0));
 		return 2.0/(1.0+Math.exp(5*y)) - 1.0;
 	}
 	
@@ -97,7 +96,9 @@ public class NAB {
 		return Totals_scores;
 	}
 	public static void main(String[] args) throws IOException{
-		System.out.println(SA("D:/MyEclipse/results/RealSight/",0.81));
+		System.out.println(SA("D:/MyEclipse/results/realsight_base/",0.75));
+//		System.out.println(SA("D:/MyEclipse/results/CAD-201610082131-Set1/",0.7655));
+//		System.out.println(SA("C:/Users/star/git/NAB/results/realsight/", 0.83));
 //		System.out.println(SDA("D:/workspace/NAB/src/results/neusoft/realTweets/neusoft_Twitter_volume_UPS.csv", 1.1));
 //		System.out.println(SDA("D:/workspace/NAB/src/results/neusoft/realAWSCloudwatch/neusoft_ec2_cpu_utilization_53ea38.csv", 3.9));
 	}

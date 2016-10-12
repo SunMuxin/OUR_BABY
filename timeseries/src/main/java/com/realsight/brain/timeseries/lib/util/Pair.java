@@ -33,4 +33,20 @@ public class Pair <T,S> implements Comparable<Pair<Double, String>>{
 		}
 		return 0;
 	}
+	
+	@Override
+	public int hashCode() {
+		return a.hashCode() ^ (b.hashCode()>>1);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(this == obj) return true;
+		if(obj instanceof Pair){
+			Pair<?, ?> pair =(Pair<?, ?>)obj;
+			if(pair.a.equals(this.a) && pair.b.equals(this.b)) return true;  
+		}
+		return false;  
+	}
 }

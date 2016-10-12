@@ -5,7 +5,6 @@ import com.realsight.brain.timeseries.lib.model.regression.LinearRegression;
 import com.realsight.brain.timeseries.lib.series.DoubleSeries;
 import com.realsight.brain.timeseries.lib.series.MultipleDoubleSeries;
 import com.realsight.brain.timeseries.lib.series.TimeSeries.Entry;
-import com.realsight.brain.timeseries.lib.util.plot.Plot;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,6 +92,10 @@ public class Util {
         	sse += noise.get(i);
         }
         return Math.sqrt(sse/(r-l+1));
+	}
+    
+    public static double Sigma(double y){
+		return 1.0-2.0/(1.0+Math.exp(y));
 	}
 }
 

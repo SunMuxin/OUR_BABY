@@ -44,7 +44,7 @@ public class TimeSeries<T> implements Iterable<TimeSeries.Entry<T>>{
 
         @Override public String toString() {
             return "Entry{" +
-                "mInstant=" + mInstant/86400000.0 +
+                "mInstant=" + mInstant +
                 ", mT=" + mT.toString() +
                 '}';
         }
@@ -116,7 +116,7 @@ public class TimeSeries<T> implements Iterable<TimeSeries.Entry<T>>{
     }
     
     public boolean isAscending() {
-        return size() <= 1 || get(0).getInstant()<(get(1).mInstant);
+        return size() <= 1 || get(0).getInstant()<=(get(1).mInstant);
     }
 
     public TimeSeries<T> toAscending() {

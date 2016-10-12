@@ -13,12 +13,11 @@ public class SoundHierarchy {
 	private static final double threshold = 0.15;
 	private static final int maxLeftSemiContextsLenght = 11;
 	private static final int maxActiveNeuronsNum = 5;
-	private static final int numNeuroGroup = 1;
 	private static final int numBit = 8;
 	private static final int numFact = 5;
 	private double fullValueRange;
 	private double minValueStep;
-	private List<NeuroGroup> neuroGroups = new ArrayList<NeuroGroup>();
+	private NeuroGroup neuroGroup = null;
 	
 	private SoundHierarchy(double minValue, double maxValue) {
 		this.minValue = minValue;
@@ -29,23 +28,15 @@ public class SoundHierarchy {
         	this.fullValueRange = numNormValue;
         }
 		this.minValueStep = this.fullValueRange / numNormValue;
-		for ( int i = 0; i < numNeuroGroup; i++ ) {
-			this.neuroGroups.add(new NeuroGroup(maxActiveNeuronsNum, maxLeftSemiContextsLenght));
-		}
+		this.neuroGroup = new NeuroGroup(maxActiveNeuronsNum, maxLeftSemiContextsLenght);
 	}
-	private void learn(List<Integer> currSensFacts){
-		for ( int i = 0; i < numNeuroGroup; i++ ) {
-			this.neuroGroups.get(i).learn(currSensFacts);
-//			System.out.println(tmp);
-		}
+	private double learn(List<Integer> currSensFacts){
+		return this.neuroGroup.learn(currSensFacts);
 	}
 	private double predict(List<Integer> currSensFacts) {
-		double sum = 0.0;
-		for ( int i = 0; i < numNeuroGroup; i++ ) {
-			double p = this.neuroGroups.get(i).predict(currSensFacts);
-			if ( threshold < p ) sum += numFact;
-		}
-		return sum;
+		double p = this.neuroGroup.predict(currSensFacts);
+		if ( threshold < p ) return numFact;
+		return 0.0;
 	}
 	public void train(DoubleSeries sound) {
 		for(int i = 0; i < sound.size(); i += numFact){
@@ -59,9 +50,7 @@ public class SoundHierarchy {
 	}
 	
 	public double test(DoubleSeries sound) {
-		for ( int i = 0; i < numNeuroGroup; i++ ) {
-			this.neuroGroups.get(i).sleep();
-		}
+		this.neuroGroup.sleep();
 		double res = 0.0;
 		for(int i = 0; i < sound.size(); i += numFact){
 			List<Integer> currSensFacts = new ArrayList<Integer>();

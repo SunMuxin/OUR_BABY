@@ -17,7 +17,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Util {
-
+	
+	public static Path writeCsv(DoubleSeries series) {
+        StringBuffer data = new StringBuffer();
+        data.append("timestamp");
+        data.append(","+series.getName());
+        data.append("\n");
+        for(Entry<Double> e : series.getData()){
+        	data.append(e.getInstant());
+        	data.append(","+e.getItem());
+        	data.append("\n");
+        }
+        return writeStringToTempFile(data.toString());
+    }
+	
     public static Path writeCsv(MultipleDoubleSeries series) {
         StringBuffer data = new StringBuffer();
         data.append("timestamp");

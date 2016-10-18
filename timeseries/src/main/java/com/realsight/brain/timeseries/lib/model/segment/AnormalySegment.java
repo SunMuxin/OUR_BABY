@@ -4,7 +4,7 @@ import com.realsight.brain.timeseries.lib.series.DoubleSeries;
 import com.realsight.brain.timeseries.lib.series.TimeSeries.Entry;
 import com.realsight.brain.timeseries.lib.util.Util;
 
-public class AnormlySegment {
+public class AnormalySegment {
 	private double maxScore = 0.0;
 	private DoubleSeries nSeries = new DoubleSeries("series");
 	private DoubleSeries anormlySeriesSegment = new DoubleSeries("anormly Segment");
@@ -20,7 +20,7 @@ public class AnormlySegment {
 	private double minValueStep;
 	private double[] pro = null;
 	
-	private AnormlySegment(DoubleSeries nSeries, double minValue, double maxValue) {
+	private AnormalySegment(DoubleSeries nSeries, double minValue, double maxValue) {
 		this.nSeries = new DoubleSeries("series");
 		this.anormlySeriesSegment = new DoubleSeries("anormly Segment");
 		this.minValue = minValue;
@@ -43,7 +43,7 @@ public class AnormlySegment {
 		this.nSeries = nSeries;
 	}
 	
-	private AnormlySegment(DoubleSeries nSeries) {
+	private AnormalySegment(DoubleSeries nSeries) {
 		this(nSeries, nSeries.min(), nSeries.max());
 	}
 
@@ -118,8 +118,8 @@ public class AnormlySegment {
 		return res;
 	}
 	
-	public static AnormlySegment build(DoubleSeries nSeries, double minValue, double maxValue){
-		return new AnormlySegment(nSeries, minValue, maxValue);
+	public static AnormalySegment build(DoubleSeries nSeries, double minValue, double maxValue){
+		return new AnormalySegment(nSeries, minValue, maxValue);
 	}
 }
 

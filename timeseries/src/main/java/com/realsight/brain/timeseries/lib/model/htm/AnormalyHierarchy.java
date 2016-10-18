@@ -7,7 +7,7 @@ import com.realsight.brain.timeseries.lib.model.htm.neurongroups.*;
 import com.realsight.brain.timeseries.lib.series.DoubleSeries;
 import com.realsight.brain.timeseries.lib.series.TimeSeries.Entry;
 
-public class AnormlyHierarchy {
+public class AnormalyHierarchy {
 	
 	private double minValue;
 	private double maxValue;
@@ -19,7 +19,7 @@ public class AnormlyHierarchy {
 	private double minValueStep;
 	private NeuroGroup neuroGroup = null;
 	
-	private AnormlyHierarchy(double minValue, double maxValue) {
+	private AnormalyHierarchy(double minValue, double maxValue) {
 		this.minValue = minValue;
 		this.maxValue = maxValue;
 		this.fullValueRange = this.maxValue - this.minValue;
@@ -88,8 +88,8 @@ public class AnormlyHierarchy {
 		return new DoubleSeries(newEntries, "anormly");
 	}
 	
-	public static AnormlyHierarchy build(DoubleSeries nSeries, double minValue, double maxValue){
-		AnormlyHierarchy res = new AnormlyHierarchy(minValue, maxValue);
+	public static AnormalyHierarchy build(DoubleSeries nSeries, double minValue, double maxValue){
+		AnormalyHierarchy res = new AnormalyHierarchy(minValue, maxValue);
 		if (nSeries != null) {
 			for(int i = 0; i< nSeries.size(); i += 1){
 				List<Integer> currSensFacts = new ArrayList<Integer>();

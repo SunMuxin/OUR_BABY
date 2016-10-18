@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.realsight.brain.timeseries.lib.model.htm.AnormlyHierarchy;
-import com.realsight.brain.timeseries.lib.model.segment.AnormlySegment;
+import com.realsight.brain.timeseries.lib.model.htm.AnormalyHierarchy;
+import com.realsight.brain.timeseries.lib.model.segment.AnormalySegment;
 import com.realsight.brain.timeseries.lib.series.DoubleSeries;
 import com.realsight.brain.timeseries.lib.series.TimeSeries.Entry;
 import com.realsight.brain.timeseries.lib.util.data.Anomaly;
 
-public class AnormlyMain {
+public class AnormalyMain {
 	private final int scope = 30;
 	private double minValue;
 	private double maxValue;
-	private AnormlyMain(String dir) {
+	private AnormalyMain(String dir) {
 		Anomaly.setLocalDir(dir);
 		DoubleSeries nSeries = Anomaly.getPropertySeries("value");
 		this.minValue = nSeries.min();
@@ -32,8 +32,8 @@ public class AnormlyMain {
 		DoubleSeries nSeries = Anomaly.getPropertySeries("value");
 		DoubleSeries anormlySeries = Anomaly.getPropertySeries("label");
 		int n = nSeries.size();
-		AnormlyHierarchy anormlyHTM = AnormlyHierarchy.build(null, minValue, maxValue);
-		AnormlySegment anormlySegment = AnormlySegment.build(nSeries.subSeries(0, n/10), minValue, maxValue);
+		AnormalyHierarchy anormlyHTM = AnormalyHierarchy.build(null, minValue, maxValue);
+		AnormalySegment anormlySegment = AnormalySegment.build(nSeries.subSeries(0, n/10), minValue, maxValue);
 		DoubleSeries anormlys = new DoubleSeries("anormlys");
 		for ( int i = 0; i < nSeries.size(); i++ ) {
 			double value = nSeries.get(i).getItem();
@@ -42,8 +42,8 @@ public class AnormlyMain {
 //			double anormly = anormlySegment.detectorAnomaly(value, timestamp);
 			double anormly = anormlyHTM.detectorAnomaly(value, timestamp);
 			anormly += anormlySegment.detectorAnomaly(value, timestamp, label)/2;
-//			if (anormlys.subSeries(Math.max(0, i-scope), i).max() >= 0.81) 
-//				anormly = 0.0;
+			if (anormlys.subSeries(Math.max(0, i-scope), i).max() >= 0.81) 
+				anormly = 0.0;
 			anormlys.add(new Entry<Double>(anormly, timestamp));
 		}
 		return anormlys;
@@ -74,7 +74,7 @@ public class AnormlyMain {
 						S.add(line.split(",")[6]);
 					}
 					sin.close();
-					AnormlyMain htm = new AnormlyMain(dir.getPath());
+					AnormalyMain htm = new AnormalyMain(dir.getPath());
 					DoubleSeries a = htm.detectorNABSeriesAnomaly(dir.getPath());
 					String resultFileName = dir.getPath().replace("null", "realsight");
 					String resultPath = new File(resultFileName).getParent();

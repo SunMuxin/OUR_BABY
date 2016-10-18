@@ -1,4 +1,4 @@
-package test;
+package com.realsight.brain.timeseries.test;
 
 
 import java.io.File;
@@ -18,6 +18,6 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		String root = new File(new File(System.getProperty("user.dir")).getParent()).getParent();
 //		String nabPath = Paths.get(root, "NAB").toString();
-		AnormlyMain.run(root);
+		AnormalyMain.run(root);
 	}
 }

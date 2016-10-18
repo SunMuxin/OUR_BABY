@@ -27,6 +27,44 @@ public class DoubleSeries extends TimeSeries<Double> {
         mName = name;
     }
     
+    public double mutual(DoubleSeries Q){
+    	int numBit = 3;
+    	double minValue = this.min();
+    	double maxValue = this.max();
+    	double fullValueRange = maxValue - minValue;
+    	int numNormValue = (1<<numBit) - 1;
+        if ( fullValueRange == 0.0 ) {
+        	fullValueRange = numNormValue;
+        }
+		double minValueStep = fullValueRange / numNormValue;
+		double[] pro = new double[numNormValue];
+		for ( int i = 0; i < numNormValue; i++ ) {
+			pro[i] += 0.1;
+		}
+		for(int i = 0; i < this.size(); i++){
+			double value = this.get(i).getItem();
+			int bit = (int) ((value-minValue)/minValueStep);
+			pro[bit] += 1.0;
+		}
+		double res = 0.0, sumP = 0.0, sumQ = 0;
+		double[] q = new double[numNormValue];
+		for(int i = 0; i < numNormValue; i++){
+			sumP += pro[i];
+		}
+		for(int i = 0; i < Q.size(); i++){
+			double value = Q.get(i).getItem();
+			int bit = (int) ((value-minValue)/minValueStep);
+			q[bit] += 1.0;
+			sumQ += 1.0;
+		}
+		for(int i = 0; i < numNormValue; i++) {
+			if(q[i] == 0) continue;
+			res += q[i]*Math.log(q[i]/sumQ);
+			res -= q[i]*Math.log(pro[i]/sumP);
+		}
+		return res;
+	}
+    
     public DoubleSeries add(DoubleSeries other) {
 
         Iterator<Entry<Double>> i1 = this.iterator();
